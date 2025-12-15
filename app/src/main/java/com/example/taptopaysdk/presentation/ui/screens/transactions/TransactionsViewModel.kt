@@ -1,5 +1,4 @@
 // presentation/ui/screens/transactions/TransactionsViewModel.kt
-
 package com.example.taptopaysdk.presentation.ui.screens.transactions
 
 import androidx.lifecycle.ViewModel
@@ -13,15 +12,20 @@ import kotlinx.coroutines.launch
 
 class TransactionsViewModel : ViewModel() {
 
-    private val getTransactionsUseCase = AppContainer.getTransactionsUseCase
+    private val getTransactionsUseCase =
+        AppContainer.getTransactionsUseCase
 
-    private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
-    val transactions: StateFlow<List<Transaction>> = _transactions.asStateFlow()
+    private val _transactions =
+        MutableStateFlow<List<Transaction>>(emptyList())
+
+    val transactions: StateFlow<List<Transaction>> =
+        _transactions.asStateFlow()
 
     init {
+        // Initial load
         loadTransactions()
 
-        // THIS LINE WAS MISSING — THIS IS THE BUG
+        // React to new transactions being recorded
         viewModelScope.launch {
             AppContainer.transactionRefreshTrigger.collect {
                 loadTransactions()
@@ -31,14 +35,11 @@ class TransactionsViewModel : ViewModel() {
 
     private fun loadTransactions() {
         viewModelScope.launch {
-            try {
-                val list = getTransactionsUseCase()
-                _transactions.value = list
-            } catch (e: Exception) {
-                _transactions.value = emptyList()
+            _transactions.value = runCatching {
+                getTransactionsUseCase()
+            }.getOrElse {
+                emptyList()
             }
         }
     }
-
-    fun refresh() = loadTransactions()
 }

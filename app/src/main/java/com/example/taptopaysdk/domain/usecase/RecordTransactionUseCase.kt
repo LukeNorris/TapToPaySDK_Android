@@ -8,7 +8,6 @@ class RecordTransactionUseCase(
     private val repository: TransactionRepository
 ) {
     suspend operator fun invoke(transaction: Transaction) {
-        // In the future you could add validation, analytics, etc. here
-        repository.addTransaction(transaction)
+        repository.recordTransaction(transaction)
     }
 }

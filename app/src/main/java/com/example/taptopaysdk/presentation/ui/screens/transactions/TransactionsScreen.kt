@@ -1,5 +1,4 @@
 // presentation/ui/screens/transactions/TransactionsScreen.kt
-
 package com.example.taptopaysdk.presentation.ui.screens.transactions
 
 import androidx.compose.foundation.layout.*
@@ -20,23 +19,22 @@ fun TransactionsScreen(
 ) {
     val transactions by viewModel.transactions.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
 
         if (transactions.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "No transactions yet",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                )
-            }
+            Text(
+                text = "No transactions yet",
+                modifier = Modifier.align(Alignment.Center),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         } else {
-            LazyColumn {
-                items(transactions) { tx ->
-                    TransactionItem(transaction = tx)
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
+                items(transactions, key = { it.id }) { tx ->
+                    TransactionItem(tx)
                     Divider()
                 }
             }
@@ -55,7 +53,9 @@ private fun TransactionItem(transaction: Transaction) {
             )
         },
         supportingContent = {
-            Text("${transaction.amount} ${transaction.currency} • ${transaction.status}")
+            Text(
+                "${transaction.amount} ${transaction.currency} • ${transaction.status}"
+            )
         },
         trailingContent = {
             Text(
@@ -68,8 +68,7 @@ private fun TransactionItem(transaction: Transaction) {
 }
 
 private fun formatTimestamp(timestamp: Long): String {
-    val now = System.currentTimeMillis()
-    val diff = now - timestamp
+    val diff = System.currentTimeMillis() - timestamp
     return when {
         diff < 60_000 -> "just now"
         diff < 3_600_000 -> "${diff / 60_000}m ago"

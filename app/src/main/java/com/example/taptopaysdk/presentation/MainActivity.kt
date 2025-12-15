@@ -42,8 +42,10 @@ class MainActivity : ComponentActivity() {
                     }
                 },
                 onFailure = { error ->
-                   Log.e("MainActivity", "Payment failed", error)
-                    // Optional: Show error UI here later
+                    lifecycleScope.launch {
+                        AppContainer.paymentResultHandler
+                            .handleFailure(error)
+                    }
                 }
             )
         }
