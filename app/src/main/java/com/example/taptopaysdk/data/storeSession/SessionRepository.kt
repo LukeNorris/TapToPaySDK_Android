@@ -1,24 +1,3 @@
-/*package com.example.taptopaysdk.data.storeSession
-
-import android.content.Context
-import com.example.taptopaysdk.domain.session.SessionRepository
-import com.example.taptopaysdk.presentation.model.SessionInfo
-import kotlinx.coroutines.flow.Flow
-
-class SessionRepository(private val context: Context) : SessionRepository {
-
-    val sessionInfo: Flow<SessionInfo> =
-        context.sessionInfoDataStore.data
-
-    suspend fun saveSession(session: SessionInfo) {
-        context.sessionInfoDataStore.updateData { session }
-    }
-
-    suspend fun clearSession() {
-        context.sessionInfoDataStore.updateData { SessionInfo() }
-    }
-}*/
-
 package com.example.taptopaysdk.data.storeSession
 
 import android.content.Context
@@ -43,10 +22,6 @@ class SessionRepositoryImpl(
     // ✅ implements domain contract
     override suspend fun clearSession() {
         context.sessionInfoDataStore.updateData { SessionInfo() }
-    }
-
-    suspend fun getInstallationId(): Result<String> {
-        return InPersonPayments.getInstallationId()
     }
 }
 

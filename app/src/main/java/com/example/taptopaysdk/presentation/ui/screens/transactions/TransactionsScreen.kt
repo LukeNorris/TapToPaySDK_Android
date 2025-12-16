@@ -42,7 +42,7 @@ fun TransactionsScreen(
                         isRefunding = refundingIds.contains(tx.id),
                         onRefund = { viewModel.refundTransaction(tx.id) }
                     )
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }

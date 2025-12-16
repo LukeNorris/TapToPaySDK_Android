@@ -8,8 +8,6 @@ import com.example.taptopaysdk.domain.model.TransactionStatus
 import com.example.taptopaysdk.domain.repository.TransactionRepository
 import org.json.JSONArray
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 import android.util.Log
 
 
@@ -69,7 +67,7 @@ class TransactionRepositoryImpl(
         current.add(0, transaction)
 
         if (current.size > MAX_SIZE) {
-            current.removeLast()
+            current.removeAt(current.lastIndex)
         }
 
         save(current)

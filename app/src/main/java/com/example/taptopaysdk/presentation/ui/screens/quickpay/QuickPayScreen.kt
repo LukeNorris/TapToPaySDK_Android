@@ -8,7 +8,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.ui.platform.LocalContext
@@ -17,7 +16,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuickPayScreen(
-    navController: NavController,
     paymentLauncher: ActivityResultLauncher<Intent>
 ) {
     val context = LocalContext.current

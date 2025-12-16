@@ -125,11 +125,4 @@ object AppContainer {
         _transactionRefreshTrigger.tryEmit(Unit)
     }
 
-
-
-
-    // -------------------------
-    // Optional debug
-    // -------------------------
-    var sdkDataRaw: String? = null
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import com.adyen.ipp.api.InPersonPayments
 import com.adyen.ipp.api.payment.TransactionReversalRequest
 
+@kotlinx.serialization.ExperimentalSerializationApi
 object TapToPayReversalExecutor {
 
     suspend fun performReversal(
