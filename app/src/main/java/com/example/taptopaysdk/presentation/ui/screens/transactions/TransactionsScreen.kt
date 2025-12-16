@@ -1,4 +1,3 @@
-// presentation/ui/screens/transactions/TransactionsScreen.kt
 package com.example.taptopaysdk.presentation.ui.screens.transactions
 
 import androidx.compose.foundation.layout.*
@@ -12,12 +11,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taptopaysdk.domain.model.Transaction
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TransactionsScreen(
     viewModel: TransactionsViewModel = viewModel()
 ) {
     val transactions by viewModel.transactions.collectAsState()
+    val refundingIds by viewModel.refundingIds.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -34,7 +37,11 @@ fun TransactionsScreen(
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {
                 items(transactions, key = { it.id }) { tx ->
-                    TransactionItem(tx)
+                    TransactionItem(
+                        transaction = tx,
+                        isRefunding = refundingIds.contains(tx.id),
+                        onRefund = { viewModel.refundTransaction(tx.id) }
+                    )
                     Divider()
                 }
             }
@@ -44,35 +51,59 @@ fun TransactionsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TransactionItem(transaction: Transaction) {
+private fun TransactionItem(
+    transaction: Transaction,
+    isRefunding: Boolean,
+    onRefund: () -> Unit
+) {
     ListItem(
         headlineContent = {
             Text(
-                text = transaction.id,
+                text = "${transaction.amount} ${transaction.currency}",
                 fontWeight = FontWeight.Medium
             )
         },
         supportingContent = {
-            Text(
-                "${transaction.amount} ${transaction.currency} • ${transaction.status}"
-            )
+            Text(formatTimestamp(transaction.timestamp))
         },
         trailingContent = {
-            Text(
-                text = formatTimestamp(transaction.timestamp),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            when {
+                transaction.isRefunded -> {
+                    Text(
+                        text = "Refunded",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                isRefunding -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        strokeWidth = 2.dp
+                    )
+                }
+
+                else -> {
+                    OutlinedButton(
+                        onClick = onRefund
+                    ) {
+                        Text("Refund")
+                    }
+                }
+            }
         }
     )
 }
 
+/**
+ * Converts epoch millis → "16 Dec 2025, 09:45"
+ */
 private fun formatTimestamp(timestamp: Long): String {
-    val diff = System.currentTimeMillis() - timestamp
-    return when {
-        diff < 60_000 -> "just now"
-        diff < 3_600_000 -> "${diff / 60_000}m ago"
-        diff < 86_400_000 -> "${diff / 3_600_000}h ago"
-        else -> "${diff / 86_400_000}d ago"
-    }
+    val formatter =
+        DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")
+
+    return Instant
+        .ofEpochMilli(timestamp)
+        .atZone(ZoneId.systemDefault())
+        .format(formatter)
 }

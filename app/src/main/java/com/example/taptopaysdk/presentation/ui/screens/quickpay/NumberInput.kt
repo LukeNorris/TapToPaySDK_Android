@@ -26,8 +26,6 @@ fun NumberInput(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var textFieldValue by remember { mutableStateOf(value)}
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -37,65 +35,60 @@ fun NumberInput(
         Text(
             text = "€",
             fontSize = 40.sp,
-            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(end = 4.dp)
         )
+
         Box(
             modifier = Modifier
                 .weight(1f)
-                .border(BorderStroke(1.dp, Color.Transparent), shape = MaterialTheme.shapes.medium)
                 .padding(8.dp)
         ) {
             BasicTextField(
-                value = textFieldValue,
+                value = value,
                 onValueChange = { newValue ->
-                    // Step 1: Filter the input to allow only digits and a single decimal point
-                    var filteredValue = newValue.filter { it.isDigit() || it == '.' }
 
-                    // Step 2: Handle leading zeros
-                    if (filteredValue.startsWith("00")) {
-                        filteredValue = "0" + filteredValue.trimStart('0')
-                    } else if (filteredValue.startsWith("0") && filteredValue.length > 1 && filteredValue[1] != '.') {
-                        filteredValue = filteredValue.trimStart('0')
+                    // 1️⃣ allow only digits + dot
+                    var filtered = newValue.filter { it.isDigit() || it == '.' }
+
+                    // 2️⃣ only one decimal separator
+                    if (filtered.count { it == '.' } > 1) return@BasicTextField
+
+                    // 3️⃣ prepend 0 if user starts with "."
+                    if (filtered.startsWith(".")) {
+                        filtered = "0$filtered"
                     }
 
-                    // Step 3: Ensure that decimal numbers have a leading zero
-                    if (filteredValue.startsWith(".")) {
-                        filteredValue = "0$filteredValue"
+                    // 4️⃣ limit to 2 decimals (only if decimal exists)
+                    val dotIndex = filtered.indexOf('.')
+                    if (dotIndex != -1 && filtered.length - dotIndex > 3) {
+                        return@BasicTextField
                     }
 
-                    // Step 4: Validate the input for a single decimal point, max 2 decimal places, and value <= 1000
-                    if (filteredValue.count { it == '.' } <= 1 &&
-                        filteredValue.toDoubleOrNull()?.let { it <= 1000 } != false &&
-                        (filteredValue.indexOf('.').let { it == -1 || filteredValue.length - it <= 3 })
-                    ) {
-                        textFieldValue = filteredValue
-                        onValueChange(filteredValue)
+                    // 5️⃣ numeric limit ONLY when parsable
+                    val numericValue = filtered.toDoubleOrNull()
+                    if (numericValue != null && numericValue > 1000) {
+                        return@BasicTextField
                     }
+
+                    onValueChange(filtered)
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Decimal,
                     imeAction = ImeAction.Done
                 ),
                 textStyle = LocalTextStyle.current.copy(
-                    fontSize = 60.sp,
-                    textAlign = TextAlign.Start,
-                    color = MaterialTheme.colorScheme.onBackground // Use theme color
+                    fontSize = 60.sp
                 ),
-                singleLine = true,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
+                singleLine = true
             )
 
-            if (textFieldValue.isEmpty()) {
+            if (value.isEmpty()) {
                 Text(
                     text = "0.00",
                     fontSize = 60.sp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f), // Use theme color with transparency
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
     }
 }
-

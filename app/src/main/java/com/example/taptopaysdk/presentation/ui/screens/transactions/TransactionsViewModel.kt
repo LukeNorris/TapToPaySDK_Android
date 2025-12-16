@@ -1,4 +1,3 @@
-// presentation/ui/screens/transactions/TransactionsViewModel.kt
 package com.example.taptopaysdk.presentation.ui.screens.transactions
 
 import androidx.lifecycle.ViewModel
@@ -15,17 +14,23 @@ class TransactionsViewModel : ViewModel() {
     private val getTransactionsUseCase =
         AppContainer.getTransactionsUseCase
 
+    private val transactionRepository =
+        AppContainer.transactionRepository
+
     private val _transactions =
         MutableStateFlow<List<Transaction>>(emptyList())
-
     val transactions: StateFlow<List<Transaction>> =
         _transactions.asStateFlow()
 
+    // 👇 Track transactions currently being refunded
+    private val _refundingIds =
+        MutableStateFlow<Set<String>>(emptySet())
+    val refundingIds: StateFlow<Set<String>> =
+        _refundingIds.asStateFlow()
+
     init {
-        // Initial load
         loadTransactions()
 
-        // React to new transactions being recorded
         viewModelScope.launch {
             AppContainer.transactionRefreshTrigger.collect {
                 loadTransactions()
@@ -40,6 +45,42 @@ class TransactionsViewModel : ViewModel() {
             }.getOrElse {
                 emptyList()
             }
+        }
+    }
+
+    fun refundTransaction(transactionId: String) {
+        viewModelScope.launch {
+
+            val tx = _transactions.value
+                .firstOrNull { it.id == transactionId }
+                ?: return@launch
+
+            if (tx.isRefunded) return@launch
+
+            // ⏳ mark as loading
+            _refundingIds.value =
+                _refundingIds.value + transactionId
+
+            AppContainer
+                .refundTransactionUseCase(
+                    tx.id,
+                    tx.timestamp
+                )
+                .onSuccess {
+                    transactionRepository.markRefunded(tx.id)
+                    AppContainer.emitTransactionRefresh()
+                }
+                .onFailure {
+                    android.util.Log.e(
+                        "TransactionsViewModel",
+                        "Refund failed for ${tx.id}",
+                        it
+                    )
+                }
+
+            // ✅ remove loading state (success or failure)
+            _refundingIds.value =
+                _refundingIds.value - transactionId
         }
     }
 }

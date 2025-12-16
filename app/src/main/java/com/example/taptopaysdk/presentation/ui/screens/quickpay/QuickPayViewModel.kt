@@ -20,15 +20,32 @@ data class QuickPayUiState(
 
 class QuickPayViewModel : ViewModel() {
 
-    private val performTapToPay = AppContainer.performTapToPayPaymentUseCase
-    private val performClearSession = AppContainer.performClearSessionUseCase
-
+    private val performTapToPay =
+        AppContainer.performTapToPayPaymentUseCase
 
     private val _ui = MutableStateFlow(QuickPayUiState())
     val ui: StateFlow<QuickPayUiState> = _ui
 
+    init {
+        // 👂 listen for payment completion
+        viewModelScope.launch {
+            AppContainer.paymentCompletedTrigger.collect {
+                reset()
+            }
+        }
+    }
+
     fun setAmount(value: String) {
-        _ui.update { it.copy(amount = value.filter { it.isDigit() }, message = null) }
+        _ui.update {
+            it.copy(
+                amount = value,
+                message = null
+            )
+        }
+    }
+
+    fun reset() {
+        _ui.value = QuickPayUiState()
     }
 
     fun onPayClicked(
@@ -50,32 +67,22 @@ class QuickPayViewModel : ViewModel() {
                     activity = activity,
                     paymentLauncher = paymentLauncher,
                     amount = amount,
-                    currency = "EUR"
+                    currency = currency
                 )
-                _ui.update { it.copy(isLoading = false, message = "Tap phone to pay...") }
+                _ui.update {
+                    it.copy(
+                        isLoading = false,
+                        message = "Tap phone to pay..."
+                    )
+                }
             } catch (e: Exception) {
-                _ui.update { it.copy(isLoading = false, message = "Failed: ${e.message}") }
+                _ui.update {
+                    it.copy(
+                        isLoading = false,
+                        message = "Failed: ${e.message}"
+                    )
+                }
             }
         }
     }
-
-    fun onClearSession(
-        activity: ComponentActivity,
-        paymentLauncher: ActivityResultLauncher<Intent>
-    ) {
-        _ui.update { it.copy(isLoading = true, message = null) }
-
-        viewModelScope.launch {
-            try {
-                performClearSession(
-                    activity = activity,
-                    paymentLauncher = paymentLauncher
-                )
-                _ui.update { it.copy(isLoading = false, message = "Clearing session...") }
-            } catch (e: Exception) {
-                _ui.update { it.copy(isLoading = false, message = "Failed: ${e.message}") }
-            }
-        }
-    }
-
 }

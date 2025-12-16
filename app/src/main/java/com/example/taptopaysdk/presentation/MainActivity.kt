@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                         val message = AppContainer.paymentResultHandler.handleSuccess(paymentResult)
                         Log.d("MainActivity", message)  // Or show Snackbar later
                     }
+                    AppContainer.emitPaymentCompleted()
                 },
                 onFailure = { error ->
                     lifecycleScope.launch {
