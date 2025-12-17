@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.taptopaysdk.di.AppContainer
 import com.example.taptopaysdk.presentation.ui.screens.quickpay.QuickPayViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -30,10 +31,12 @@ fun SessionInfoScreen(
     val context = LocalContext.current
     val activity = context as? ComponentActivity
 
-
-    val vm: SessionInfoViewModel = viewModel(
-        factory = SessionInfoViewModelFactory()
-    )
+    val vm: SessionInfoViewModel = viewModel {
+        SessionInfoViewModel(
+            repo = AppContainer.sessionRepository,
+            clearSessionUseCase = AppContainer.performClearSessionUseCase
+        )
+    }
 
     val info by vm.sessionInfo.collectAsState()
 

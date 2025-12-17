@@ -1,4 +1,4 @@
-package com.example.taptopaysdk.presentation.model
+package com.example.taptopaysdk.presentation.ui.model
 import kotlinx.serialization.Serializable
 
 

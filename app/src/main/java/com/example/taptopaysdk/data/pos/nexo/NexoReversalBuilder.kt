@@ -1,4 +1,4 @@
-package com.example.taptopaysdk.data.pos
+package com.example.taptopaysdk.data.pos.nexo
 
 import android.os.Build
 import androidx.annotation.RequiresApi

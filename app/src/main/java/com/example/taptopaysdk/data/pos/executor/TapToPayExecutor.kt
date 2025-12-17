@@ -1,4 +1,4 @@
-package com.example.taptopaysdk.data.pos
+package com.example.taptopaysdk.data.pos.executor
 
 import android.app.Activity
 import android.content.Intent
@@ -7,12 +7,14 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import com.adyen.ipp.api.InPersonPayments
-import com.adyen.ipp.api.InPersonPaymentsTools
 import com.adyen.ipp.api.initialization.InitializationState
 import com.adyen.ipp.api.payment.PaymentInterfaceType
 import com.adyen.ipp.api.payment.TransactionRequest
 import com.adyen.ipp.api.ui.MerchantUiParameters
 import com.example.taptopaysdk.R
+import com.example.taptopaysdk.data.pos.initializer.PosSdkInitializer
+import com.example.taptopaysdk.data.pos.nexo.NexoPaymentBuilder
+import com.example.taptopaysdk.data.pos.nexo.NexoPaymentParams
 
 /**
  * Helper to:

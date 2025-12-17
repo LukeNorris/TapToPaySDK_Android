@@ -3,7 +3,7 @@ package com.example.taptopaysdk.data.storeSession
 import android.content.Context
 import com.adyen.ipp.api.InPersonPayments
 import com.example.taptopaysdk.domain.session.SessionRepository
-import com.example.taptopaysdk.presentation.model.SessionInfo
+import com.example.taptopaysdk.presentation.ui.model.SessionInfo
 import kotlinx.coroutines.flow.Flow
 
 class SessionRepositoryImpl(

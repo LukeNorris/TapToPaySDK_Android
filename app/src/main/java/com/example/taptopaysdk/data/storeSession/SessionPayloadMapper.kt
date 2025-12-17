@@ -1,6 +1,9 @@
 package com.example.taptopaysdk.data.storeSession
 
-import com.example.taptopaysdk.presentation.model.*
+import com.example.taptopaysdk.presentation.ui.model.DeviceInfo
+import com.example.taptopaysdk.presentation.ui.model.LibraryInfo
+import com.example.taptopaysdk.presentation.ui.model.PublicKeyInfo
+import com.example.taptopaysdk.presentation.ui.model.SessionInfo
 import org.json.JSONObject
 
 object SessionPayloadMapper {

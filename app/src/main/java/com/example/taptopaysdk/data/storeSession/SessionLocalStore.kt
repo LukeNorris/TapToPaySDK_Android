@@ -1,7 +1,7 @@
 package com.example.taptopaysdk.data.storeSession
 
 import androidx.datastore.core.Serializer
-import com.example.taptopaysdk.presentation.model.SessionInfo
+import com.example.taptopaysdk.presentation.ui.model.SessionInfo
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream

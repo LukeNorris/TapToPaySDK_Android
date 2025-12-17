@@ -1,4 +1,4 @@
-package com.example.taptopaysdk.data.pos
+package com.example.taptopaysdk.data.pos.initializer
 
 import android.content.Context
 import android.util.Log

@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 //import com.example.taptopaysdk.data.storeSession.SessionRepository
 import com.example.taptopaysdk.domain.session.SessionRepository
-import com.example.taptopaysdk.domain.usecase.PerformClearSessionUseCase
-import com.example.taptopaysdk.presentation.model.SessionInfo
+import com.example.taptopaysdk.domain.usecase.ClearSessionUseCase
+import com.example.taptopaysdk.presentation.ui.model.SessionInfo
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class SessionInfoViewModel(
     private val repo: SessionRepository,
-    private val clearSessionUseCase: PerformClearSessionUseCase
+    private val clearSessionUseCase: ClearSessionUseCase
 ) : ViewModel() {
 
     val sessionInfo: StateFlow<SessionInfo?> =
@@ -53,3 +53,5 @@ class SessionInfoViewModel(
         }
     }
 }
+
+

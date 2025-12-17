@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".data.authentication.MyAuthenticationService"
+            android:name=".data.authentication.AdyenAuthenticationService"
             android:exported="false" />
     </application>
 

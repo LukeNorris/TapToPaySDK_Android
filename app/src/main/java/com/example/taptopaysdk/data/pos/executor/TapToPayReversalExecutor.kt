@@ -1,4 +1,4 @@
-package com.example.taptopaysdk.data.pos
+package com.example.taptopaysdk.data.pos.executor
 
 import android.util.Log
 import com.adyen.ipp.api.InPersonPayments

@@ -1,11 +1,11 @@
 package com.example.taptopaysdk.domain.usecase
 
 import com.example.taptopaysdk.domain.session.SessionRepository
-import com.example.taptopaysdk.presentation.model.SessionInfo
+import com.example.taptopaysdk.presentation.ui.model.SessionInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class PerformGetSessionUseCase(
+class GetSessionUseCase(
     private val repository: SessionRepository
 ) {
 

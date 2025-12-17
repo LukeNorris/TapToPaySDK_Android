@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import com.adyen.ipp.api.authentication.AuthenticationProvider
 import com.adyen.ipp.api.authentication.MerchantAuthenticationService
 
-class MyAuthenticationService : MerchantAuthenticationService() {
+class AdyenAuthenticationService : MerchantAuthenticationService() {
 
     override lateinit var authenticationProvider: AuthenticationProvider
 

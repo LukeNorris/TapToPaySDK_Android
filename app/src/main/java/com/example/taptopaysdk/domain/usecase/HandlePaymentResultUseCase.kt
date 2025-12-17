@@ -1,4 +1,4 @@
-package com.example.taptopaysdk.domain.payment
+package com.example.taptopaysdk.domain.usecase
 
 import android.util.Base64
 import android.util.Log
@@ -6,13 +6,12 @@ import com.adyen.ipp.api.payment.PaymentResult
 import com.example.taptopaysdk.di.AppContainer
 import com.example.taptopaysdk.domain.model.Transaction
 import com.example.taptopaysdk.domain.model.TransactionStatus
-import com.example.taptopaysdk.domain.usecase.RecordTransactionUseCase
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
-class PaymentResultHandler(
+class HandlePaymentResultUseCase(
     private val recordTransaction: RecordTransactionUseCase
 ) {
 

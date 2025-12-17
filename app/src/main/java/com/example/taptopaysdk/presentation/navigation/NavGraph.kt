@@ -29,7 +29,6 @@ fun AppNavHost(
     ) {
         composable(Screen.QuickPayTab.route) {
             QuickPayScreen(
-                navController = navController,
                 paymentLauncher = paymentLauncher
             )
         }

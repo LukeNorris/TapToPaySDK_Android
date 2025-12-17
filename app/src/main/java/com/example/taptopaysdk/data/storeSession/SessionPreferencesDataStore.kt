@@ -3,7 +3,7 @@ package com.example.taptopaysdk.data.storeSession
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.example.taptopaysdk.presentation.model.SessionInfo
+import com.example.taptopaysdk.presentation.ui.model.SessionInfo
 
 private const val SESSION_INFO_FILE = "session_info.json"
 

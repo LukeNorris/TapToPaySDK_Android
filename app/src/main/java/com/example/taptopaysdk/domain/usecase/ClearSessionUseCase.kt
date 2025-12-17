@@ -4,9 +4,9 @@ package com.example.taptopaysdk.domain.usecase
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
-import com.example.taptopaysdk.data.pos.ClearSessionExecutor
+import com.example.taptopaysdk.data.pos.executor.ClearSessionExecutor
 
-class PerformClearSessionUseCase(
+class ClearSessionUseCase(
     private val clearSessionExecutor: ClearSessionExecutor
 ) {
     suspend operator fun invoke(

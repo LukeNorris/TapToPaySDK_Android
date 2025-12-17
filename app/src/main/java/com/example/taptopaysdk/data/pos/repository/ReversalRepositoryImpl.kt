@@ -1,7 +1,10 @@
-package com.example.taptopaysdk.data.pos
+package com.example.taptopaysdk.data.pos.repository
 
 import android.util.Log
 import com.adyen.ipp.api.InPersonPayments
+import com.example.taptopaysdk.data.pos.executor.TapToPayReversalExecutor
+import com.example.taptopaysdk.data.pos.nexo.NexoReversalBuilder
+import com.example.taptopaysdk.data.pos.nexo.NexoReversalParams
 import com.example.taptopaysdk.domain.repository.ReversalRepository
 
 class ReversalRepositoryImpl : ReversalRepository {
