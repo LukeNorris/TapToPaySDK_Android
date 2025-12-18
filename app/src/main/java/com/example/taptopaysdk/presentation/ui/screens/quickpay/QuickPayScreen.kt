@@ -10,8 +10,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.sp
+import com.example.taptopaysdk.presentation.ui.components.AppTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,10 +25,8 @@ fun QuickPayScreen(
     val activity = context as? ComponentActivity
     val vm: QuickPayViewModel = viewModel()
     val ui by vm.ui.collectAsState()
-
     val focusManager = LocalFocusManager.current
 
-    // 👇 clear focus when amount resets
     LaunchedEffect(ui.amount) {
         if (ui.amount.isEmpty()) {
             focusManager.clearFocus()
@@ -38,9 +39,15 @@ fun QuickPayScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(64.dp))
-        Text("Quick Pay", style = MaterialTheme.typography.headlineMedium)
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(100.dp))
+
+        Text(
+            "Enter Amount",
+            fontSize = 30.sp,
+            color = Color.Gray
+        )
+
+        Spacer(Modifier.height(10.dp))
 
         NumberInput(
             value = ui.amount,

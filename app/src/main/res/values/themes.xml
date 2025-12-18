@@ -3,3 +3,5 @@
 
     <style name="Theme.TapToPaySDK" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
+
+
