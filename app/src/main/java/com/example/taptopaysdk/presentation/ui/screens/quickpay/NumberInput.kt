@@ -34,7 +34,7 @@ fun NumberInput(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .padding(8.dp)
+                .padding(1.dp)
         ) {
             BasicTextField(
                 value = value,
@@ -56,7 +56,7 @@ fun NumberInput(
                     imeAction = ImeAction.Done
                 ),
                 textStyle = LocalTextStyle.current.copy(
-                    fontSize = 60.sp,
+                    fontSize = 55.sp,
                     textAlign = TextAlign.Center   // ⭐ key line
                 ),
                 singleLine = true,

@@ -69,8 +69,9 @@ fun QuickPayScreen(
                 .height(60.dp)
         ) {
             Text(
-                if (ui.isLoading) "Starting..." else "TAP TO PAY",
-                style = MaterialTheme.typography.titleMedium
+                if (ui.isLoading) "Starting..." else "PAY",
+                style = MaterialTheme.typography.titleMedium,
+                fontSize = 25.sp
             )
         }
 
