@@ -17,10 +17,8 @@ class TransactionsViewModel : ViewModel() {
     private val transactionRepository =
         AppContainer.transactionRepository
 
-    private val _transactions =
-        MutableStateFlow<List<Transaction>>(emptyList())
-    val transactions: StateFlow<List<Transaction>> =
-        _transactions.asStateFlow()
+    private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
+    val transactions: StateFlow<List<Transaction>> = _transactions.asStateFlow()
 
     // 👇 Track transactions currently being refunded
     private val _refundingIds =
