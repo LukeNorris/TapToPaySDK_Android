@@ -3,7 +3,7 @@
 
 This is a demo POS app for Adyen's TapToPay Android solution. It integrates with the Adyen SDK. 
 
-<img src="images/ttp-dark-theme.png" alt="App Screenshot" width="300" style="padding-right: 100px;"/> <img src="images/ttp-light-theme.png" alt="App Screenshot" width="300"/>
+<img src="images/t2p-home-light.png" alt="App Screenshot" width="300" style="padding-right: 100px;"/> <img src="images/t2p-transactions-light.png" alt="App Screenshot" width="300"/>
 
 ## How to Run
 
