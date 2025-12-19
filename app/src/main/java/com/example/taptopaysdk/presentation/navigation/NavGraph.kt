@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.taptopaysdk.presentation.ui.screens.quickpay.QuickPayScreen
+import com.example.taptopaysdk.presentation.ui.screens.settings.CardReaderScreen
 import com.example.taptopaysdk.presentation.ui.screens.transactions.TransactionsScreen
 import com.example.taptopaysdk.presentation.ui.screens.transactions.TransactionsViewModel
 import com.example.taptopaysdk.presentation.ui.screens.settings.SettingsScreen
@@ -51,6 +52,10 @@ fun AppNavHost(
 
         composable(Routes.InstallationId) {
             InstallationIdScreen(navController)
+        }
+
+        composable(Routes.CardReader) {
+            CardReaderScreen(navController)
         }
     }
 }

@@ -1,26 +1,28 @@
-
-// domain/usecase/PerformTapToPayPaymentUseCase.kt
+// domain/usecase/PerformPaymentUseCase.kt
 package com.example.taptopaysdk.domain.usecase
 
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
-import com.example.taptopaysdk.data.pos.executor.TapToPayExecutor
+import com.example.taptopaysdk.domain.model.PaymentMethod
+import com.example.taptopaysdk.domain.payment.PaymentExecutor
 
-class TapToPayPaymentUseCase(
-    private val tapToPayExecutor: TapToPayExecutor
+class PerformPaymentUseCase(
+    private val paymentExecutor: PaymentExecutor
 ) {
     suspend operator fun invoke(
         activity: ComponentActivity,
         paymentLauncher: ActivityResultLauncher<Intent>,
         amount: Double,
-        currency: String = "EUR"
+        currency: String,
+        method: PaymentMethod
     ) {
-        tapToPayExecutor.startPayment(
+        paymentExecutor.startPayment(
             activity = activity,
             paymentLauncher = paymentLauncher,
             amount = amount,
-            currency = currency
+            currency = currency,
+            method = method
         )
     }
 }

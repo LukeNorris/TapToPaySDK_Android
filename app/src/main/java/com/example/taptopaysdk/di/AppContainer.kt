@@ -2,9 +2,9 @@ package com.example.taptopaysdk.di
 
 import android.content.Context
 import android.util.Log
+import com.example.taptopaysdk.data.pos.executor.AdyenPaymentExecutor
 import com.example.taptopaysdk.data.pos.executor.ClearSessionExecutor
 import com.example.taptopaysdk.data.pos.repository.ReversalRepositoryImpl
-import com.example.taptopaysdk.data.pos.executor.TapToPayExecutor
 import com.example.taptopaysdk.data.transaction.TransactionRepositoryImpl
 import com.example.taptopaysdk.data.storeSession.SessionRepositoryImpl
 import com.example.taptopaysdk.domain.usecase.HandlePaymentResultUseCase
@@ -14,6 +14,8 @@ import com.example.taptopaysdk.domain.session.SessionRepository
 import com.example.taptopaysdk.domain.usecase.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import com.example.taptopaysdk.domain.usecase.PerformPaymentUseCase
+
 
 object AppContainer {
 
@@ -41,6 +43,8 @@ object AppContainer {
 
     lateinit var paymentResultHandler: HandlePaymentResultUseCase
         private set
+
+
 
     /**
      * Must be called ONCE from Application.onCreate()
@@ -105,8 +109,8 @@ object AppContainer {
     // PAYMENTS / SESSION
     // -------------------------
 
-    val performTapToPayPaymentUseCase =
-        TapToPayPaymentUseCase(TapToPayExecutor)
+    val performPaymentUseCase =
+        PerformPaymentUseCase(AdyenPaymentExecutor)
 
     val performClearSessionUseCase =
         ClearSessionUseCase(ClearSessionExecutor)

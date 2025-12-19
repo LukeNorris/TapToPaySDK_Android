@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.sp
+import com.example.taptopaysdk.domain.model.PaymentMethod
 import com.example.taptopaysdk.presentation.ui.components.AppTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,6 +57,24 @@ fun QuickPayScreen(
         )
 
         Spacer(Modifier.height(40.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            FilterChip(
+                selected = ui.paymentMethod == PaymentMethod.TAP_TO_PAY,
+                onClick = { vm.setPaymentMethod(PaymentMethod.TAP_TO_PAY) },
+                label = { Text("Tap to Pay") }
+            )
+
+            FilterChip(
+                selected = ui.paymentMethod == PaymentMethod.CARD_READER,
+                onClick = { vm.setPaymentMethod(PaymentMethod.CARD_READER) },
+                label = { Text("Card Reader") }
+            )
+        }
 
         Button(
             onClick = {

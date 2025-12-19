@@ -57,7 +57,8 @@ fun NumberInput(
                 ),
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 55.sp,
-                    textAlign = TextAlign.Center   // ⭐ key line
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onBackground
                 ),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()

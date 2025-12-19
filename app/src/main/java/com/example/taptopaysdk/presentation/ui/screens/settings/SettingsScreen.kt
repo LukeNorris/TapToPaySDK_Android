@@ -1,6 +1,5 @@
 package com.example.taptopaysdk.presentation.ui.screens.settings
 
-// ui/screens/SettingsScreen.kt
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -11,17 +10,16 @@ import androidx.navigation.NavController
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.TouchApp
-import com.example.taptopaysdk.presentation.navigation.Routes
 import androidx.compose.ui.graphics.vector.ImageVector
-
+import com.example.taptopaysdk.presentation.navigation.Routes
 
 @Composable
 fun SettingsScreen(navController: NavController) {
-
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp))
-    {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
 
         SettingItem(
             title = "Session Info",
@@ -35,6 +33,14 @@ fun SettingsScreen(navController: NavController) {
             title = "Installation ID",
             icon = Icons.Default.TouchApp,
             onClick = { navController.navigate(Routes.InstallationId) }
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        SettingItem(
+            title = "Card Readers",
+            icon = Icons.Default.TouchApp,
+            onClick = { navController.navigate(Routes.CardReader) }
         )
     }
 }
@@ -56,7 +62,7 @@ fun SettingItem(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
         ) {
-            Icon(icon, title)
+            Icon(icon, contentDescription = title)
             Spacer(Modifier.width(16.dp))
             Text(title, style = MaterialTheme.typography.bodyLarge)
         }

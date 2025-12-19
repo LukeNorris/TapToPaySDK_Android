@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taptopaysdk.di.AppContainer
+import com.example.taptopaysdk.domain.model.PaymentMethod
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -15,19 +16,19 @@ import kotlinx.coroutines.launch
 data class QuickPayUiState(
     val amount: String = "",
     val isLoading: Boolean = false,
-    val message: String? = null
+    val message: String? = null,
+    val paymentMethod: PaymentMethod = PaymentMethod.TAP_TO_PAY
 )
 
 class QuickPayViewModel : ViewModel() {
 
-    private val performTapToPay =
-        AppContainer.performTapToPayPaymentUseCase
+    private val performPayment =
+        AppContainer.performPaymentUseCase
 
     private val _ui = MutableStateFlow(QuickPayUiState())
     val ui: StateFlow<QuickPayUiState> = _ui
 
     init {
-        // 👂 listen for payment completion
         viewModelScope.launch {
             AppContainer.paymentCompletedTrigger.collect {
                 reset()
@@ -35,13 +36,12 @@ class QuickPayViewModel : ViewModel() {
         }
     }
 
+    fun setPaymentMethod(method: PaymentMethod) {
+        _ui.update { it.copy(paymentMethod = method) }
+    }
+
     fun setAmount(value: String) {
-        _ui.update {
-            it.copy(
-                amount = value,
-                message = null
-            )
-        }
+        _ui.update { it.copy(amount = value, message = null) }
     }
 
     fun reset() {
@@ -51,7 +51,8 @@ class QuickPayViewModel : ViewModel() {
     fun onPayClicked(
         activity: ComponentActivity,
         paymentLauncher: ActivityResultLauncher<Intent>,
-        currency: String = "EUR"
+        currency: String = "EUR",
+        method: PaymentMethod = _ui.value.paymentMethod
     ) {
         val amount = _ui.value.amount.toDoubleOrNull()
         if (amount == null || amount <= 0) {
@@ -63,26 +64,22 @@ class QuickPayViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                performTapToPay(
+                performPayment(
                     activity = activity,
                     paymentLauncher = paymentLauncher,
                     amount = amount,
-                    currency = currency
+                    currency = currency,
+                    method = method
                 )
                 _ui.update {
-                    it.copy(
-                        isLoading = false,
-                        message = "Tap phone to pay..."
-                    )
+                    it.copy(isLoading = false, message = "Ready for payment…")
                 }
             } catch (e: Exception) {
                 _ui.update {
-                    it.copy(
-                        isLoading = false,
-                        message = "Failed: ${e.message}"
-                    )
+                    it.copy(isLoading = false, message = "Failed: ${e.message}")
                 }
             }
         }
     }
 }
+
