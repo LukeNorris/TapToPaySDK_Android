@@ -10,12 +10,18 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import com.example.taptopaysdk.domain.model.PaymentMethod
-import com.example.taptopaysdk.presentation.ui.components.AppTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,28 +59,21 @@ fun QuickPayScreen(
         NumberInput(
             value = ui.amount,
             onValueChange = vm::setAmount,
-            modifier = Modifier.width(280.dp)
+            modifier = Modifier
+                .width(280.dp)
+                .padding(start = 15.dp)
+
         )
 
         Spacer(Modifier.height(40.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            FilterChip(
-                selected = ui.paymentMethod == PaymentMethod.TAP_TO_PAY,
-                onClick = { vm.setPaymentMethod(PaymentMethod.TAP_TO_PAY) },
-                label = { Text("Tap to Pay") }
-            )
 
-            FilterChip(
-                selected = ui.paymentMethod == PaymentMethod.CARD_READER,
-                onClick = { vm.setPaymentMethod(PaymentMethod.CARD_READER) },
-                label = { Text("Card Reader") }
-            )
-        }
+        PaymentMethodToggle(
+            selected = ui.paymentMethod,
+            onSelected = vm::setPaymentMethod,
+            modifier = Modifier.width(220.dp)
+        )
+        Spacer(Modifier.height(20.dp))
+
 
         Button(
             onClick = {
@@ -104,5 +103,109 @@ fun QuickPayScreen(
                     MaterialTheme.colorScheme.primary
             )
         }
+    }
+}
+
+
+@Composable
+fun PaymentMethodToggle(
+    selected: PaymentMethod,
+    onSelected: (PaymentMethod) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val pillFraction by animateFloatAsState(
+        targetValue = if (selected == PaymentMethod.TAP_TO_PAY) 0f else 1f,
+        animationSpec = tween(durationMillis = 220),
+        label = "pillOffset"
+    )
+
+    BoxWithConstraints(
+        modifier = modifier
+            .height(32.dp)
+            .clip(MaterialTheme.shapes.large)
+    ) {
+        val containerWidthPx = constraints.maxWidth
+        val pillWidthPx = containerWidthPx / 2
+        val offsetPx = (pillFraction * pillWidthPx).toInt()
+
+        // 🔵 Sliding pill
+        Box(
+            modifier = Modifier
+                .offset { IntOffset(offsetPx, 0) }
+                .width(with(LocalDensity.current) { pillWidthPx.toDp() })
+                .fillMaxHeight()
+                .clip(MaterialTheme.shapes.large)
+                .background(MaterialTheme.colorScheme.primary)
+        )
+
+        // 📝 Labels
+        Row(modifier = Modifier.fillMaxSize()) {
+            ToggleLabel(
+                text = "Tap to Pay",
+                selected = selected == PaymentMethod.TAP_TO_PAY,
+                onClick = { onSelected(PaymentMethod.TAP_TO_PAY) }
+            )
+            ToggleLabel(
+                text = "Card Reader",
+                selected = selected == PaymentMethod.CARD_READER,
+                onClick = { onSelected(PaymentMethod.CARD_READER) }
+            )
+        }
+    }
+}
+
+
+@Composable
+private fun RowScope.ToggleLabel(
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxHeight()
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            fontSize = 13.sp,
+            color = if (selected)
+                MaterialTheme.colorScheme.onPrimary
+            else
+                MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+
+
+@Composable
+private fun RowScope.SegmentedButton(
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .weight(1f) // ✅ now valid
+            .fillMaxHeight()
+            .background(
+                if (selected)
+                    MaterialTheme.colorScheme.primary
+                else
+                    Color.Transparent
+            )
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text,
+            color = if (selected)
+                MaterialTheme.colorScheme.onPrimary
+            else
+                MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
