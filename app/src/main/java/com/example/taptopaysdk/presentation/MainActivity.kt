@@ -2,14 +2,18 @@
 package com.example.taptopaysdk.presentation
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.adyen.ipp.api.InPersonPayments
@@ -29,7 +33,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(
+                Color.TRANSPARENT // Background remains transparent
+            )
+        )
         paymentLauncher = InPersonPayments.registerForPaymentResult(this) { result ->
             result.fold(
                 onSuccess = { paymentResult ->
@@ -78,7 +86,10 @@ class MainActivity : ComponentActivity() {
                     AppNavHost(
                         navController = navController,
                         paymentLauncher = paymentLauncher,
-                        modifier = Modifier.padding(padding)
+                        modifier = Modifier.padding(
+                            top = padding.calculateTopPadding(),
+                            bottom = 0.dp // <--- THIS IGNORES THE BOTTOM BAR GAP
+                        )
                     )
                 }
             }
