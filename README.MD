@@ -1,7 +1,7 @@
 # POS Tap to Pay SDK
 ## Project Description
 
-This is a demo POS app for Adyen's TapToPay Android solution. It integrates with the Adyen SDK. 
+This is a demo SoftPOS app that integrates directly with Adyen's TapToPay Android SDK. 
 
 <img src="images/t2p-home-light.png" alt="App Screenshot" width="300" style="padding-right: 100px;"/> <img src="images/t2p-transactions-light.png" alt="App Screenshot" width="300"/>
 
@@ -24,7 +24,9 @@ To run this project, you need to add your Adyen credentials to the `local.proper
 3. Add your credentials as shown here:
 
 ADYEN_API_KEY=your_api_key_here
+
 ADYEN_MERCHANT_ACCOUNT=your_merchant_account_here
+
 STORE=your_store_ID
 
 
