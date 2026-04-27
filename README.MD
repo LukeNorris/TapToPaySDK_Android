@@ -27,7 +27,13 @@ ADYEN_API_KEY=your_api_key_here
 
 ADYEN_MERCHANT_ACCOUNT=your_merchant_account_here
 
-STORE=your_store_ID
+STORE=your_store_ID(optional, but required for platforms)
+
+KEY_IDENTIFIER=your_key_identifier(create in your terminal settings in Adyen dashboard)
+
+PASSPHRASE=your_passphrase(create in your terminal settings in Adyen dashboard)
+
+KEY_VERSION=1
 
 
 ## Notes
