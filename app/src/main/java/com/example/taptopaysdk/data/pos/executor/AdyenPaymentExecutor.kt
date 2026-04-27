@@ -48,6 +48,11 @@ object AdyenPaymentExecutor : PaymentExecutor {
         )
 
         val built = NexoPaymentBuilder.buildPaymentRequest(params, poiId)
+        val json = built.json
+        Log.d("AdyenPaymentObject", "NEXO payment request JSON (${json.length} chars):")
+        json.chunked(3500).forEachIndexed { i, chunk ->
+            Log.d("AdyenPaymentObject", "[$i] $chunk")
+        }
 
         val transactionRequest = TransactionRequest.create(built.json)
             .getOrElse {
