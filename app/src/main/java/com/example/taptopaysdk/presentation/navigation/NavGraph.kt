@@ -35,7 +35,7 @@ fun AppNavHost(
         }
 
         composable(Screen.TransactionsTab.route) {
-            val viewModel: TransactionsViewModel = viewModel()  // ← THIS SAVES YOUR LIFE
+            val viewModel: TransactionsViewModel = viewModel()
             TransactionsScreen(viewModel = viewModel)
         }
 

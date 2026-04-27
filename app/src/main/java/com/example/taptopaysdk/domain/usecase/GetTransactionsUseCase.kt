@@ -11,3 +11,5 @@ class GetTransactionsUseCase(
         return repository.getLastTransactions()
     }
 }
+
+

@@ -8,3 +8,4 @@ interface TransactionRepository {
     suspend fun markRefunded(transactionId: String)
     suspend fun clear()
 }
+
