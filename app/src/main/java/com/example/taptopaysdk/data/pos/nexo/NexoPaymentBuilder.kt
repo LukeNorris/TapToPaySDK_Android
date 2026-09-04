@@ -56,7 +56,6 @@ object NexoPaymentBuilder {
                   "TransactionID": "$transactionId",
                   "TimeStamp": "$timeStamp"
                 },
-                "SaleToAcquirerData": "ewogICAgICJhZGRpdGlvbmFsRGF0YSI6IHsKICAgICAgICAgInNwbGl0LmFwaSI6ICIxIiwKICAgICAgICAgInNwbGl0Lm5yT2ZJdGVtcyI6ICIzIiwKICAgICAgICAgInNwbGl0LnRvdGFsQW1vdW50IjogIjIwMDAiLAogICAgICAgICAic3BsaXQuY3VycmVuY3lDb2RlIjogIkVVUiIsCiAgICAgICAgICJzcGxpdC5pdGVtMS5hbW91bnQiOiAiMTUwMCIsCiAgICAgICAgICJzcGxpdC5pdGVtMS50eXBlIjogIkJhbGFuY2VBY2NvdW50IiwKICAgICAgICAgInNwbGl0Lml0ZW0xLmFjY291bnQiOiAiQkEzMjlCWjIyMzIyQjM1TlJRTFFDODdSSyIsCiAgICAgICAgICJzcGxpdC5pdGVtMS5yZWZlcmVuY2UiOiAicmVmZXJlbmNlX3NwbGl0XzEiLAogICAgICAgICAic3BsaXQuaXRlbTEuZGVzY3JpcHRpb24iOiAiZGVzY3JpcHRpb25fc3BsaXRfMSIsCiAgICAgICAgICJzcGxpdC5pdGVtMi5hbW91bnQiOiAiNTAwIiwKICAgICAgICAgInNwbGl0Lml0ZW0yLnR5cGUiOiAiQ29tbWlzc2lvbiIsCiAgICAgICAgICJzcGxpdC5pdGVtMi5yZWZlcmVuY2UiOiAicmVmZXJlbmNlX2NvbW1pc3Npb24iLAogICAgICAgICAic3BsaXQuaXRlbTIuZGVzY3JpcHRpb24iOiAiZGVzY3JpcHRpb25fY29tbWlzc2lvbiIsCiAgICAgICAgICJzcGxpdC5pdGVtMy50eXBlIjogIlBheW1lbnRGZWUiLAogICAgICAgICAic3BsaXQuaXRlbTMuYWNjb3VudCI6ICJCQTMyQ05IMjIzMjI4NzVMRlNDTkc3RzNIIiwKICAgICAgICAgInNwbGl0Lml0ZW0zLnJlZmVyZW5jZSI6ICJyZWZlcmVuY2VfUGF5bWVudEZlZSIsCiAgICAgICAgICJzcGxpdC5pdGVtMy5kZXNjcmlwdGlvbiI6ICJkZXNjcmlwdGlvbl9QYXltZW50RmVlIgogICAgIH0KfQ==",                
                 "SaleReferenceID": "${params.saleReferenceId}",
                 "RequestedValidity": "60"
               },

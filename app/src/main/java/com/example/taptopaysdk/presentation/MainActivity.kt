@@ -41,8 +41,9 @@ class MainActivity : ComponentActivity() {
         paymentLauncher = InPersonPayments.registerForPaymentResult(this) { result ->
             result.fold(
                 onSuccess = { paymentResult ->
-                  Log.d("MainActivity", "Payment callback received")
-
+                    Log.d("MainActivity", "Payment callback received")
+                    val resultJson = paymentResult.toString()
+                    Log.d("AdyenPaymentResponse", "SDK response (${resultJson.length} chars): $resultJson")
                     // Delegate to domain handler (non-blocking)
                     lifecycleScope.launch {
                         val message = AppContainer.paymentResultHandler.handleSuccess(paymentResult)

@@ -99,7 +99,7 @@ android {
 kotlin {
     jvmToolchain(17)
 }
-val version = "2.9.0"
+val version = "2.14.0"
 dependencies {
     implementation(platform("androidx.compose:compose-bom:2024.10.01"))
     implementation("androidx.activity:activity-compose:1.9.3")
